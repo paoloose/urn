@@ -14,7 +14,7 @@ long long urn_time_now(void) {
 
 long long urn_time_value(const char *string) {
     char seconds_part[256];
-    double subseconds_part = 0.;
+    long long subseconds_part = 0;
     int hours = 0;
     int minutes = 0;
     int seconds = 0;
@@ -22,7 +22,7 @@ long long urn_time_value(const char *string) {
     if (!string || !strlen(string)) {
         return 0;
     }
-    sscanf(string, "%[^.]%lf", seconds_part, &subseconds_part);
+    sscanf(string, "%[^.].%lld", seconds_part, &subseconds_part);
     string = seconds_part;
     if (string[0] == '-') {
         sign = -1;
@@ -43,7 +43,7 @@ long long urn_time_value(const char *string) {
     return sign * ((hours * 60 * 60
                     + minutes * 60
                     + seconds) * 1000000LL
-                   + (int)(subseconds_part * 1000000.));
+                   + subseconds_part);
 }
 
 static void urn_time_string_format(char *string,
