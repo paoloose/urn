@@ -711,8 +711,23 @@ static void save_activated(GSimpleAction *action,
         gtk_window_get_size(GTK_WINDOW(win), &width, &height);
         win->game->width = width;
         win->game->height = height;
-        urn_game_update_splits(win->game, win->timer);
-        save_game(win->game);
+        int saving = 1;
+        if (!urn_is_timer_better(win->game, win->timer)) {
+            GtkWidget *confirm = gtk_message_dialog_new(GTK_WINDOW(win),
+                    GTK_DIALOG_MODAL,
+                    GTK_MESSAGE_QUESTION,
+                    GTK_BUTTONS_YES_NO,
+                    "This run is worse than saved one, continue?");
+            gint ret = gtk_dialog_run(GTK_DIALOG(confirm));
+            if (ret != GTK_RESPONSE_YES) {
+                saving = 0;
+            }
+            gtk_widget_destroy(confirm);
+        }
+        if (saving) {
+            urn_game_update_splits(win->game, win->timer);
+            save_game(win->game);
+        }
     }
 }
 

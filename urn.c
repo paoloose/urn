@@ -533,6 +533,23 @@ int urn_game_save(const urn_game *game) {
     return error;
 }
 
+int urn_is_timer_better(urn_game *game, urn_timer *timer) {
+    int i = game->split_count - 1;
+    /* find the latest split with a time */
+    while (i >= 0) {
+        if (timer->split_times[i] != 0ll || game->split_times[i] != 0ll)
+            break;
+        i--;
+    }
+    if (i < 0)
+        return 1;
+    if (timer->split_times[i] == 0ll)
+        return 0;
+    if (game->split_times[i] == 0ll)
+        return 1;
+    return timer->split_times[i] < game->split_times[i];
+}
+
 void urn_timer_release(urn_timer *timer) {
     if (timer->split_times) {
         free(timer->split_times);

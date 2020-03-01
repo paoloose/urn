@@ -76,6 +76,8 @@ int urn_game_save(const urn_game *game);
 
 void urn_game_release(urn_game *game);
 
+int urn_is_timer_better(urn_game *game, urn_timer *timer);
+
 int urn_timer_create(urn_timer **timer_ptr, urn_game *game);
 
 void urn_timer_release(urn_timer *timer);
