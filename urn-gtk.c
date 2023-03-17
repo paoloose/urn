@@ -140,28 +140,31 @@ static gboolean urn_app_window_step(gpointer data) {
 static int urn_app_window_find_theme(
     UrnAppWindow *win, const char *theme_name, const char *theme_variant, char *str
 ) {
-    char theme_path[256];
-    struct stat st = {0};
     if (!theme_name || !strlen(theme_name)) {
         str[0] = '\0';
         return 0;
     }
-    strcpy(theme_path, "/");
-    strcat(theme_path, theme_name);
-    strcat(theme_path, "/");
-    strcat(theme_path, theme_name);
+    char theme_css_filename[256];
+    strcpy(theme_css_filename, "/");
+    strcat(theme_css_filename, theme_name);
+    strcat(theme_css_filename, "/");
+    strcat(theme_css_filename, theme_name);
     if (theme_variant && strlen(theme_variant)) {
-        strcat(theme_path, "-");
-        strcat(theme_path, theme_variant);
+        strcat(theme_css_filename, "-");
+        strcat(theme_css_filename, theme_variant);
     }
-    strcat(theme_path, ".css");
+    strcat(theme_css_filename, ".css");
 
+    // first search for themes in ~/.urn/themes
     strcpy(str, win->data_path);
     strcat(str, "/themes");
-    strcat(str, theme_path);
+    strcat(str, theme_css_filename);
+
+    struct stat st = {0};
     if (stat(str, &st) == -1) {
-        strcpy(str, "/usr/share/urn/themes");
-        strcat(str, theme_path);
+        // default themes directory (see Makefile)
+        strcpy(str, "/usr/local/share/urn/themes");
+        strcat(str, theme_css_filename);
         if (stat(str, &st) == -1) {
             str[0] = '\0';
             return 0;
@@ -172,7 +175,6 @@ static int urn_app_window_find_theme(
 
 static void urn_app_window_show_game(UrnAppWindow *win) {
     GdkScreen *screen;
-    char str[256];
     GList *l;
 
     // set dimensions
@@ -185,8 +187,9 @@ static void urn_app_window_show_game(UrnAppWindow *win) {
     }
 
     // set game theme
+    char theme_path_found[256];
     if (urn_app_window_find_theme(
-        win, win->game->theme, win->game->theme_variant, str)
+        win, win->game->theme, win->game->theme_variant, theme_path_found)
     ) {
         win->style = gtk_css_provider_new();
         screen = gdk_display_get_default_screen(win->display);
@@ -197,7 +200,7 @@ static void urn_app_window_show_game(UrnAppWindow *win) {
         );
         gtk_css_provider_load_from_path(
             GTK_CSS_PROVIDER(win->style),
-            str, NULL
+            theme_path_found, NULL
         );
     }
 
@@ -302,7 +305,7 @@ static void timer_skip(UrnAppWindow *win) {
             }
         }
     }
-} 
+}
 
 static void timer_unsplit(UrnAppWindow *win) {
     if (win->timer) {
@@ -399,7 +402,6 @@ static void urn_app_window_init(UrnAppWindow *win) {
     GtkCssProvider *provider;
     GdkScreen *screen;
     struct passwd *pw;
-    char str[256];
     const char *theme;
     const char *theme_variant;
     int i;
@@ -414,7 +416,7 @@ static void urn_app_window_init(UrnAppWindow *win) {
 
     // load icon
     gtk_window_set_icon(GTK_WINDOW(win), gdk_pixbuf_new_from_file(
-        "/usr/share/icons/hicolor/256x256/apps/urn.png", NULL
+        "/usr/local/share/icons/hicolor/256x256/apps/urn.png", NULL
     ));
 
     // load settings
@@ -464,7 +466,9 @@ static void urn_app_window_init(UrnAppWindow *win) {
     // Load theme
     theme = g_settings_get_string(settings, "theme");
     theme_variant = g_settings_get_string(settings, "theme-variant");
-    if (urn_app_window_find_theme(win, theme, theme_variant, str)) {
+
+    char theme_path_found[256];
+    if (urn_app_window_find_theme(win, theme, theme_variant, theme_path_found)) {
         provider = gtk_css_provider_new();
         screen = gdk_display_get_default_screen(win->display);
         gtk_style_context_add_provider_for_screen(
@@ -474,7 +478,7 @@ static void urn_app_window_init(UrnAppWindow *win) {
         );
         gtk_css_provider_load_from_path(
             GTK_CSS_PROVIDER(provider),
-            str, NULL
+            theme_path_found, NULL
         );
         g_object_unref(provider);
     }
@@ -565,7 +569,7 @@ static void urn_app_window_init(UrnAppWindow *win) {
     gtk_widget_show(win->footer);
 
     g_timeout_add(1, urn_app_window_step, win);
-    g_timeout_add((int)(1000 / 30.), urn_app_window_draw, win); 
+    g_timeout_add((int)(1000 / 30.), urn_app_window_draw, win);
 }
 
 static void urn_app_window_class_init(UrnAppWindowClass *class) {

@@ -42,6 +42,8 @@ uninstall:
 	rm -f $(BIN_DIR)/$(BIN)
 	rm -f $(APP_DIR)/$(APP)
 	rm -rf $(DATADIR)/urn
+	rm -f $(SCHEMAS_DIR)/urn-gtk.gschema.xml
+	rm -f $(SCHEMAS_DIR)/gschemas.compiled
 	for size in 16 22 24 32 36 48 64 72 96 128 256 512; do \
 	  rm -f $(ICON_DIR)/"$$size"x"$$size"/apps/$(ICON) ; \
 	done

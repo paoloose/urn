@@ -17,7 +17,7 @@
       <description>Hides the cursor when it hovers over the window.</description>
     </key>
     <key name="theme" type="s">
-      <default>''</default>
+      <default>'live-split'</default>
       <summary>Theme</summary>
       <description>Window theme.</description>
     </key>
