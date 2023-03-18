@@ -6,7 +6,12 @@
 #define URN_INFO_BEST_SPLIT    (4)
 #define URN_INFO_BEST_SEGMENT  (8)
 
-struct urn_game {
+typedef struct split_error {
+    int code;
+    char *message;
+} split_error;
+
+typedef struct urn_game {
     char *path;
     char *title;
     char *theme;
@@ -22,10 +27,9 @@ struct urn_game {
     long long *segment_times;
     long long *best_splits;
     long long *best_segments;
-};
-typedef struct urn_game urn_game;
+} urn_game;
 
-struct urn_timer {
+typedef struct urn_timer {
     int started;
     int running;
     long long now;
@@ -44,8 +48,7 @@ struct urn_timer {
     long long *best_segments;
     const urn_game *game;
     int *attempt_count;
-};
-typedef struct urn_timer urn_timer;
+} urn_timer;
 
 long long urn_time_now(void);
 
@@ -59,7 +62,7 @@ void urn_split_string(char *string, long long time);
 
 void urn_delta_string(char *string, long long time);
 
-int urn_game_create(urn_game **game_ptr, const char *path);
+int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg);
 
 void urn_game_update_splits(urn_game *game, const urn_timer *timer);
 

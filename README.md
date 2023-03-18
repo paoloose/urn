@@ -27,6 +27,7 @@
 - More friendly README.md
 - Nicer time format
 - New Urn icon ✨
+- Feedback error when opening invalid json files
 
 ### Bugs fixed:
 - Timer kept running in the background while paused

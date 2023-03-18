@@ -113,7 +113,6 @@ void urn_delta_string(char *string, long long time) {
 }
 
 void urn_game_release(urn_game *game) {
-    int i;
     if (game->path) {
         free(game->path);
     }
@@ -127,7 +126,7 @@ void urn_game_release(urn_game *game) {
         free(game->theme_variant);
     }
     if (game->split_titles) {
-        for (i = 0; i < game->split_count; ++i) {
+        for (int i = 0; i < game->split_count; ++i) {
             if (game->split_titles[i]) {
                 free(game->split_titles[i]);
             }
@@ -148,166 +147,275 @@ void urn_game_release(urn_game *game) {
     }
 }
 
-int urn_game_create(urn_game **game_ptr, const char *path) {
+#define URN_GAME_CREATE_ERROR_INVALID_JSON 1
+#define URN_GAME_CREATE_ERROR_ALLOC_FAILED 2
+#define URN_GAME_CREATE_ERROR_TYPE_MISMATCH 3
+#define URN_GAME_CREATE_ERROR_INVALID_VALUE 4
+
+int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
     int error = 0;
     urn_game *game;
     int i;
     json_t *json = 0;
     json_t *ref;
     json_error_t json_error;
+    char error_hint[256] = "";
     // allocate game
     game = calloc(1, sizeof(urn_game));
     if (!game) {
-        error = 1;
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
         goto game_create_done;
     }
     // copy path to file
     game->path = strdup(path);
     if (!game->path) {
-        error = 1;
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
         goto game_create_done;
     }
     // load json
     json = json_load_file(game->path, 0, &json_error);
     if (!json) {
-        error = 1;
+        error = URN_GAME_CREATE_ERROR_INVALID_JSON;
+        sprintf(
+            error_hint,
+            "%s at line %d:%d", json_error.text, json_error.line, json_error.column
+        );
         goto game_create_done;
     }
     // copy title
     ref = json_object_get(json, "title");
-    if (ref) {
+    if (!ref) {
+        game->title = strdup("Untitled");
+    } else {
+        if (!json_is_string(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.title must be a string");
+            goto game_create_done;
+        }
         game->title = strdup(json_string_value(ref));
         if (!game->title) {
-            error = 1;
+            error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
             goto game_create_done;
         }
     }
     // copy theme
     ref = json_object_get(json, "theme");
     if (ref) {
+        if (!json_is_string(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.theme must be a string");
+            goto game_create_done;
+        }
         game->theme = strdup(json_string_value(ref));
         if (!game->theme) {
-            error = 1;
+            error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
             goto game_create_done;
         }
     }
     // copy theme variant
     ref = json_object_get(json, "theme_variant");
     if (ref) {
+        if (!json_is_string(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.theme_variant must be a string");
+            goto game_create_done;
+        }
         game->theme_variant = strdup(json_string_value(ref));
         if (!game->theme_variant) {
-            error = 1;
+            error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
             goto game_create_done;
         }
     }
     // get attempt count
     ref = json_object_get(json, "attempt_count");
     if (ref) {
+        if (!json_is_integer(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.attempt_count must be an integer");
+            goto game_create_done;
+        }
         game->attempt_count = json_integer_value(ref);
+        if (game->attempt_count < 0) {
+            error = URN_GAME_CREATE_ERROR_INVALID_VALUE;
+            strcpy(error_hint, "object.attempt_count must be positive");
+            goto game_create_done;
+        }
     }
     // get width
     ref = json_object_get(json, "width");
     if (ref) {
+        if (!json_is_integer(ref)) {
+            error = 1;
+            strcpy(error_hint, "object.width must be an integer");
+            goto game_create_done;
+        }
         game->width = json_integer_value(ref);
+        if (game->width < 0) {
+            error = URN_GAME_CREATE_ERROR_INVALID_VALUE;
+            strcpy(error_hint, "object.width must be positive");
+            goto game_create_done;
+        }
     }
     // get height
     ref = json_object_get(json, "height");
     if (ref) {
+        if (!json_is_integer(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.height must be an integer");
+            goto game_create_done;
+        }
         game->height = json_integer_value(ref);
+        if (game->height < 0) {
+            error = URN_GAME_CREATE_ERROR_INVALID_VALUE;
+            strcpy(error_hint, "object.height must be positive");
+            goto game_create_done;
+        }
     }
     // get delay
     ref = json_object_get(json, "start_delay");
     if (ref) {
-        game->start_delay = urn_time_value(
-            json_string_value(ref));
+        if (!json_is_string(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.start_delay must be a time string (HH:MM:SS.mmmmmm)");
+            goto game_create_done;
+        }
+        game->start_delay = urn_time_value(json_string_value(ref));
     }
     // get wr
     ref = json_object_get(json, "world_record");
     if (ref) {
-        game->world_record = urn_time_value(
-            json_string_value(ref));
+        if (!json_is_string(ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            strcpy(error_hint, "object.world_record must be a time string (HH:MM:SS.mmmmmm)");
+            goto game_create_done;
+        }
+        game->world_record = urn_time_value(json_string_value(ref));
     }
     // get splits
     ref = json_object_get(json, "splits");
-    if (ref) {
-        game->split_count = json_array_size(ref);
-        // allocate titles
-        game->split_titles = calloc(game->split_count,
-                                    sizeof(char *));
-        if (!game->split_titles) {
+    if (!ref || !json_is_array(ref)) {
+        error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+        strcpy(error_hint, "object.splits must be defined as an array of split objects");
+        goto game_create_done;
+    }
+    game->split_count = json_array_size(ref);
+    if (game->split_count == 0) {
+        error = URN_GAME_CREATE_ERROR_INVALID_VALUE;
+        strcpy(error_hint, "object.splits must have at least one split");
+        goto game_create_done;
+    }
+    // allocate titles
+    game->split_titles = calloc(game->split_count, sizeof(char *));
+    if (!game->split_titles) {
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+        goto game_create_done;
+    }
+    // allocate splits
+    game->split_times = calloc(game->split_count, sizeof(long long));
+    if (!game->split_times) {
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+        goto game_create_done;
+    }
+    game->segment_times = calloc(game->split_count, sizeof(long long));
+    if (!game->segment_times) {
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+        goto game_create_done;
+    }
+    game->best_splits = calloc(game->split_count, sizeof(long long));
+    if (!game->best_splits) {
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+        goto game_create_done;
+    }
+    game->best_segments = calloc(game->split_count, sizeof(long long));
+    if (!game->best_segments) {
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+        goto game_create_done;
+    }
+    // copy splits
+    for (i = 0; i < game->split_count; ++i) {
+        json_t *split;
+        json_t *split_ref;
+        split = json_array_get(ref, i);
+        split_ref = json_object_get(split, "title");
+        if (!split_ref || !json_is_string(split_ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            sprintf(error_hint, "object.splits[%d].title must be a string", i);
+            goto game_create_done;
+        }
+        game->split_titles[i] = strdup(json_string_value(split_ref));
+        if (!game->split_titles[i]) {
             error = 1;
             goto game_create_done;
         }
-        // allocate splits
-        game->split_times = calloc(game->split_count,
-                                   sizeof(long long));
-        if (!game->split_times) {
-            error = 1;
+        split_ref = json_object_get(split, "time");
+        if (!split_ref) {
+            game->split_times[i] = 0;
+        }
+        else if (!json_is_string(split_ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            sprintf(error_hint, "object.splits[%d].time must be a parsable time string (HH:MM:SS.mmmmmm)", i);
             goto game_create_done;
         }
-        game->segment_times = calloc(game->split_count,
-                                     sizeof(long long));
-        if (!game->segment_times) {
-            error = 1;
+        else {
+            game->split_times[i] = urn_time_value(json_string_value(split_ref));
+        }
+        if (i && game->split_times[i] && game->split_times[i-1]) {
+            game->segment_times[i] = game->split_times[i] - game->split_times[i-1];
+        } else if (!i && game->split_times[0]) {
+            game->segment_times[0] = game->split_times[0];
+        }
+        split_ref = json_object_get(split, "best_time");
+        if (!json_is_string(split_ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            sprintf(error_hint, "object.splits[%d].best_time must be a parsable time string (HH:MM:SS.mmmmmm)", i);
             goto game_create_done;
         }
-        game->best_splits = calloc(game->split_count,
-                                   sizeof(long long));
-        if (!game->best_splits) {
-            error = 1;
+        if (split_ref) {
+            game->best_splits[i] = urn_time_value(json_string_value(split_ref));
+        } else if (game->split_times[i]) {
+            game->best_splits[i] = game->split_times[i];
+        }
+        split_ref = json_object_get(split, "best_segment");
+        if (!json_is_string(split_ref)) {
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+            sprintf(error_hint, "object.splits[%d].best_segment must be a parsable time string (HH:MM:SS.mmmmmm)", i);
             goto game_create_done;
         }
-        game->best_segments = calloc(game->split_count,
-                                     sizeof(long long));
-        if (!game->best_segments) {
-            error = 1;
-            goto game_create_done;
-        }
-        // copy splits
-        for (i = 0; i < game->split_count; ++i) {
-            json_t *split;
-            json_t *split_ref;
-            split = json_array_get(ref, i);
-            split_ref = json_object_get(split, "title");
-            if (split_ref) {
-                game->split_titles[i] = strdup(
-                    json_string_value(split_ref));
-                if (!game->split_titles[i]) {
-                    error = 1;
-                    goto game_create_done;
-                }
-            }
-            split_ref = json_object_get(split, "time");
-            if (split_ref) {
-                game->split_times[i] = urn_time_value(
-                    json_string_value(split_ref));
-            }
-            if (i && game->split_times[i] && game->split_times[i-1]) {
-                game->segment_times[i] = game->split_times[i] - game->split_times[i-1];
-            } else if (!i && game->split_times[0]) {
-                game->segment_times[0] = game->split_times[0];
-            }
-            split_ref = json_object_get(split, "best_time");
-            if (split_ref) {
-                game->best_splits[i] = urn_time_value(
-                    json_string_value(split_ref));
-            } else if (game->split_times[i]) {
-                game->best_splits[i] = game->split_times[i];
-            }
-            split_ref = json_object_get(split, "best_segment");
-            if (split_ref) {
-                game->best_segments[i] = urn_time_value(
-                    json_string_value(split_ref));
-            } else if (game->segment_times[i]) {
-                game->best_segments[i] = game->segment_times[i];
-            }
+        if (split_ref) {
+            game->best_segments[i] = urn_time_value(json_string_value(split_ref));
+        } else if (game->segment_times[i]) {
+            game->best_segments[i] = game->segment_times[i];
         }
     }
  game_create_done:
     if (!error) {
         *game_ptr = game;
-    } else if (game) {
-        urn_game_release(game);
+        error_msg = NULL;
+    } else {
+        switch (error) {
+        case URN_GAME_CREATE_ERROR_ALLOC_FAILED:
+            *error_msg = strdup("Failed to allocate memory");
+            break;
+        case URN_GAME_CREATE_ERROR_INVALID_VALUE:
+            *error_msg = strdup("Invalid value: ");
+            break;
+        case URN_GAME_CREATE_ERROR_TYPE_MISMATCH:
+            *error_msg = strdup("Invalid type: ");
+            break;
+        case URN_GAME_CREATE_ERROR_INVALID_JSON:
+            *error_msg = strdup("Failed to parse JSON: ");
+            break;
+        default:
+            *error_msg = strdup("Unknown error");
+            break;
+        }
+        if (*error_msg) {
+            *error_msg = realloc(*error_msg, strlen(*error_msg) + strlen(error_hint) + 1);
+            if (*error_msg) {
+                strcat(*error_msg, error_hint);
+            }
+        }
+        if (game) urn_game_release(game);
     }
     if (json) {
         json_decref(json);
@@ -352,8 +460,7 @@ int urn_game_save(const urn_game *game) {
         json_object_set_new(json, "title", json_string(game->title));
     }
     if (game->attempt_count) {
-        json_object_set_new(json, "attempt_count",
-                            json_integer(game->attempt_count));
+        json_object_set_new(json, "attempt_count", json_integer(game->attempt_count));
     }
     if (game->world_record) {
         urn_time_string_serialized(str, game->world_record);

@@ -45,6 +45,7 @@ struct _UrnAppWindow {
     GtkWidget *box;
     GList *components;
     GtkWidget *footer;
+    GtkWidget *error_label;
     GtkCssProvider *style;
     gboolean hide_cursor;
     gboolean global_hotkeys;
@@ -210,7 +211,11 @@ static void urn_app_window_show_game(UrnAppWindow *win) {
             component->ops->show_game(component, win->game, win->timer);
     }
 
+    for (GList *l = gtk_container_get_children(GTK_CONTAINER(win->box)); l; l = l->next) {
+        gtk_widget_show(GTK_WIDGET(l->data));
+    }
     gtk_widget_show(win->box);
+    gtk_widget_hide(win->error_label);
 }
 
 static void resize_window(UrnAppWindow *win,
@@ -568,6 +573,17 @@ static void urn_app_window_init(UrnAppWindow *win) {
     gtk_container_add(GTK_CONTAINER(win->box), win->footer);
     gtk_widget_show(win->footer);
 
+    // An error label that is only shown when there is a parsing json error
+    win->error_label = gtk_label_new("");
+    add_class(win->error_label, "error-message");
+    gtk_widget_set_margin_start(win->error_label, WINDOW_PAD);
+    gtk_widget_set_margin_end(win->error_label, WINDOW_PAD);
+    gtk_widget_set_vexpand(win->error_label, TRUE);
+    gtk_widget_set_halign(win->error_label, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(win->error_label, GTK_ALIGN_CENTER);
+    gtk_label_set_line_wrap(GTK_LABEL(win->error_label), TRUE);
+    gtk_container_add(GTK_CONTAINER(win->box), win->error_label);
+
     g_timeout_add(1, urn_app_window_step, win);
     g_timeout_add((int)(1000 / 30.), urn_app_window_draw, win);
 }
@@ -582,6 +598,17 @@ static UrnAppWindow *urn_app_window_new(UrnApp *app) {
     return win;
 }
 
+// Hides all the children of the main box and shows only the error label
+static void show_error_message(UrnAppWindow *win, const char *message) {
+    gtk_label_set_text(GTK_LABEL(win->error_label), message);
+    // show only the error label, as the box has many children
+    for (GList *l = gtk_container_get_children(GTK_CONTAINER(win->box)); l; l = l->next) {
+        gtk_widget_hide(GTK_WIDGET(l->data));
+    }
+    gtk_widget_show(win->error_label);
+    gtk_widget_show(win->box);
+}
+
 static void urn_app_window_open(UrnAppWindow *win, const char *file) {
     if (win->timer) {
         urn_app_window_clear_game(win);
@@ -592,9 +619,12 @@ static void urn_app_window_open(UrnAppWindow *win, const char *file) {
         urn_game_release(win->game);
         win->game = 0;
     }
-    if (urn_game_create(&win->game, file)) {
+    char* error_msg = NULL;
+    if (urn_game_create(&win->game, file, &error_msg) != 0) {
         win->game = 0;
-    } else if (urn_timer_create(&win->timer, win->game)) {
+        show_error_message(win, error_msg);
+        free(error_msg);
+    } else if (urn_timer_create(&win->timer, win->game) != 0) {
         win->timer = 0;
     } else {
         urn_app_window_show_game(win);
@@ -652,9 +682,14 @@ static void open_activated(
 
         if (res2) {
             filename = gtk_file_chooser_get_filename(chooser);
-            urn_app_window_open(win, filename);
-            g_free(filename);
+            if (filename) {
+                urn_app_window_open(win, filename);
+                g_free(filename);
+            }
         }
+    }
+    if (res == GTK_RESPONSE_CANCEL && !win->game) {
+        show_error_message(win, "No JSON file loaded");
     }
     gtk_widget_destroy(dialog);
 }
