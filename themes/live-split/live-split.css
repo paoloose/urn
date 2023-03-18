@@ -97,7 +97,8 @@
   color: #99a;
 }
 .footer {
-  padding-right: 0 0;
+  padding-right: 0;
+  padding-left: 0;
   background: linear-gradient(#111111, #000);
   margin: 0 -8px;
 }

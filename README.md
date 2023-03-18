@@ -41,13 +41,13 @@
 ## Quick start and installation
 
 Urn requires `libgtk+-3.0`, `x11`, `libjansson` and installing requires
-`imagemagick`, and `rsync`.
+`imagemagick`, and `rsync`. `DejaVu` font is also recommended.
 
 On Debian-based systems:
 
 ```sh
 sudo apt update
-sudo apt install libgtk-3-dev build-essential libjansson-dev imagemagick rsync
+sudo apt install libgtk-3-dev build-essential libjansson-dev imagemagick rsync fonts-dejavu
 ```
 
 Clone the project:
