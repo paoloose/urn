@@ -1,0 +1,52 @@
+{
+  "title": "Math homework Any%",
+  "attempt_count": 0,
+  "start_delay": "5.000000",
+  "splits": [
+    {
+      "title": "Prepare myself mentally",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Exercise 1",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Exercise 2",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Exercise 3",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Exercise 4",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Exercise 5",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Submit to classroom",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    }
+  ],
+  "theme": "live-split",
+  "width": 320,
+  "height": 420
+}

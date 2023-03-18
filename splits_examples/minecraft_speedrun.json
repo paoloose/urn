@@ -1,0 +1,41 @@
+{
+  "title": "Minecraft: Java Edition",
+  "attempt_count": 0,
+  "world_record": "69:00:00.000000",
+  "start_delay": "3.000000",
+  "splits": [
+    {
+      "title": "Overworld",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Nether",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Fortress",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "End Portal",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    },
+    {
+      "title": "Credits",
+      "time": "0.000000",
+      "best_time": "0.000000",
+      "best_segment": "0.000000"
+    }
+  ],
+  "theme": "live-split",
+  "width": 320,
+  "height": 400
+}
