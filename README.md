@@ -268,6 +268,11 @@ targeting the CSS class `.split-title-first-split`.
     You can use `splits/sotn.json` as an example. You can place the
     split files wherever you want, just open them when starting urn.
 
+- How can I define custom icons for my splits?
+
+    This is currently not possible. See [https://github.com/paoloose/urn/issues/7](https://github.com/paoloose/urn/issues/7)
+    for a workaround (or if you want to help to implement this).
+
 - Can I contribute?
 
     Yes, you can contribute by making [pull requests](https://github.com/paoloose/urn/pulls),
