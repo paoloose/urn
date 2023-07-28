@@ -44,14 +44,20 @@
 
 ## Quick start and installation
 
-Urn requires `libgtk+-3.0`, `x11`, `libjansson` and installing requires
-`imagemagick`. `DejaVu` font is also recommended.
+For Arch-based distros, see the [`urn-git` package](<https://aur.archlinux.org/packages/urn-git>) thanks to @belsmith.
+
+For NixOS, see the [`urn-timer` package](<https://search.nixos.org/packages?query=urn-timer>) thanks to [@fgaz](https://github.com/fgaz).
+
+### Building
+
+Urn requires `gtk3`, `x11` and `jansson`; installation requires `imagemagick`.
+The default font is `DejaVu`.
 
 On Debian-based systems:
 
 ```sh
 sudo apt update
-sudo apt install libgtk-3-dev build-essential libjansson-dev imagemagick fonts-dejavu
+sudo apt install build-essential libgtk-3-dev libjansson-dev imagemagick fonts-dejavu
 ```
 
 Clone the project:
@@ -79,13 +85,14 @@ a Split JSON file (see [Split files](#split-files)).
 Initially, the window is undecorated. You can toggle window decorations
 by pressing the `Right Control` key.
 
-The timer is controlled by key presses:
+The timer is controlled with the following keys
+(note that **they depend on the timer state**):
 
-| Key                  | Stopped | Started |
-| -------------------- | ------- | ------- |
-| <kbd>Spacebar</kbd>  | Start   | Split   |
-| <kbd>Backspace</kbd> | Reset   | Stop    |
-| <kbd>Delete</kbd>    | Cancel  | -       |
+| Key                  | Stopped     | Started    |
+| -------------------- | ----------- | ---------- |
+| <kbd>Spacebar</kbd>  | Start timer | Split      |
+| <kbd>Backspace</kbd> | Reset timer | Stop timer |
+| <kbd>Delete</kbd>    | Cancel      | -          |
 
 Cancel will **reset the timer** and **decrement the attempt counter**. A run that is reset before the [start delay](#main-object) is automatically
 canceled.
@@ -98,20 +105,22 @@ you can manually change the current split:
 | <kbd>Page Up</kbd>   | Unsplit    |
 | <kbd>Page Down</kbd> | Skip split |
 
-Keybinds can be configured by changing your gsettings.
+Keybinds can be configured by changing your `gsettings`. See
+[Modifying the default values](#modifying-the-default-values).
 
 ## Settings and keybinds
 
-See the [urn-gtk.gschema.xml](https://github.com/paoloose/urn/blob/master/urn-gtk.gschema.xml) file.
+The setting schema is defined in the
+[urn-gtk.gschema.xml](https://github.com/paoloose/urn/blob/master/urn-gtk.gschema.xml) file.
 
-| Setting           | Type    | Description                        | Default      |
-| ----------------- | ------- | ---------------------------------- | ------------ |
-| `start-decorated` | Boolean | Start with window decorations      | false        |
-| `start-on-top`    | Boolean | Start with window as always on top | true         |
-| `hide-cursor`     | Boolean | Hide cursor in window              | false        |
-| `global-hotkeys`  | Boolean | Enables global hotkeys             | false        |
-| `theme`           | String  | Default theme name                 | 'live-split' |
-| `theme-variant`   | String  | Default theme variant              | ''           |
+| Setting           | Type    | Description                        | Default        |
+| ----------------- | ------- | ---------------------------------- | -------------- |
+| `start-decorated` | Boolean | Start with window decorations      | `false`        |
+| `start-on-top`    | Boolean | Start with window as always on top | `true`         |
+| `hide-cursor`     | Boolean | Hide cursor in window              | `false`        |
+| `global-hotkeys`  | Boolean | Enables global hotkeys             | `false`        |
+| `theme`           | String  | Default theme name                 | `'live-split'` |
+| `theme-variant`   | String  | Default theme variant              | `''`           |
 
 | Keybind                      | Type   | Description                       | Default               |
 | ---------------------------- | ------ | --------------------------------- | --------------------- |
@@ -122,22 +131,30 @@ See the [urn-gtk.gschema.xml](https://github.com/paoloose/urn/blob/master/urn-gt
 | `keybind-skip-split`         | String | Skip split keybind                | <kbd>Page Down</kbd>  |
 | `keybind-toggle-decorations` | String | Toggle window decorations keybind | <kbd>Right Ctrl</kbd> |
 
+The next section shows how to change these values.
+
 ### Modifying the default values
 
 You can change the values in the `wildmouse.urn` path with `gsettings`:
 
 ```bash
-gsettings set wildmouse.urn global-hotkeys <true/false>
+# Enabling the global hotkeys
+gsettings set wildmouse.urn global-hotkeys true
 
+# Changing the Urn theme
 gsettings set wildmouse.urn theme <my-theme>
+
+# Change the keybind to start/split
+gsettings set wildmouse.urn keybind-start-split "<Alt>space"
 ```
 
 Of course, you can directly edit the [urn-gtk.gschema.xml](https://github.com/paoloose/urn/blob/master/urn-gtk.gschema.xml)
-default values. Note that you will need to do a `sudo make install` to get the required
-file `urn-gtk.gschema.xml` into the expected location.
+default values, but note that you will need to `sudo make install` again to get
+the required file `urn-gtk.gschema.xml` into the expected location.
 
 Keybind strings must be parsable by the
 [gtk_accelerator_parse](https://docs.gtk.org/gtk4/func.accelerator_parse.html).
+See the [complete list of keynames](https://github.com/GNOME/gtk/blob/main/gdk/keynames.txt) for `gdk`. Modifiers are enclosed in angular brackets <>: `<Shift>`, `<Ctrl>`, `<Alt>`, `<Meta>`, `<Super>`, `<Hyper>`. Note that you should use `<Alt>a` instead of `<Alt>-a` or similar.
 
 ## Colors
 
@@ -155,10 +172,11 @@ The color of a time or delta has a special meaning.
 ## Split Files
 
 Split files are stored as well-formed JSON and **must** contain
-one [main object](#main-object). All the keys are optional.
+one [main object](#main-object).
 
-You can use [`splits/sotn.json`](https://github.com/paoloose/urn/blob/master/splits/sotn.json)
-as an example or create your own split files and place them wherever you want.
+You can use splits located in
+[`splits-examples/`](https://github.com/paoloose/urn/tree/main/splits_examples)
+to start creating your own split files and place them wherever you want.
 
 ### Main object
 
@@ -173,6 +191,8 @@ as an example or create your own split files and place them wherever you want.
 | `theme_variant` | Window theme variant                    |
 | `width`         | Window width                            |
 | `height`        | Window height                           |
+
+Most of the above keys are optional.
 
 ### Split object
 
