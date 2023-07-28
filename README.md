@@ -1,4 +1,5 @@
 
+<!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
     <img src="https://raw.githubusercontent.com/paoloose/urn/master/static/urn.png" width=100 height=100/>
 </p>
@@ -18,18 +19,20 @@
 > solutions for split tracking with a delayed start available
 > on *nix platforms.
 
-**Forked** from the [original project](https://github.com/3snowp7im/urn) (rest in peace).
+**Forked** from the [original project](https://github.com/3snowp7im/urn).
 
-### Features added:
+### Features added
+
 - Now the last split folder is saved ([pull request by @Thue](https://github.com/3snowp7im/urn/pull/49))
 - New default theme (LiveSplit theme)
 - New shortcut to keep window always on top (Ctrl+K)
 - More friendly README.md
 - Nicer time format
 - New Urn icon ✨
-- Feedback error when opening invalid json files
+- Feedback error when opening invalid JSON files
 
-### Bugs fixed:
+### Bugs fixed
+
 - Timer kept running in the background while paused
 - User was able to skip the last split
 
@@ -42,13 +45,13 @@
 ## Quick start and installation
 
 Urn requires `libgtk+-3.0`, `x11`, `libjansson` and installing requires
-`imagemagick`, and `rsync`. `DejaVu` font is also recommended.
+`imagemagick`. `DejaVu` font is also recommended.
 
 On Debian-based systems:
 
 ```sh
 sudo apt update
-sudo apt install libgtk-3-dev build-essential libjansson-dev imagemagick rsync fonts-dejavu
+sudo apt install libgtk-3-dev build-essential libjansson-dev imagemagick fonts-dejavu
 ```
 
 Clone the project:
@@ -75,7 +78,6 @@ a Split JSON file (see [Split files](#split-files)).
 
 Initially, the window is undecorated. You can toggle window decorations
 by pressing the `Right Control` key.
-
 
 The timer is controlled by key presses:
 
@@ -124,7 +126,7 @@ See the [urn-gtk.gschema.xml](https://github.com/paoloose/urn/blob/master/urn-gt
 
 You can change the values in the `wildmouse.urn` path with `gsettings`:
 
-```
+```bash
 gsettings set wildmouse.urn global-hotkeys <true/false>
 
 gsettings set wildmouse.urn theme <my-theme>
@@ -134,7 +136,7 @@ Of course, you can directly edit the [urn-gtk.gschema.xml](https://github.com/pa
 default values. Note that you will need to do a `sudo make install` to get the required
 file `urn-gtk.gschema.xml` into the expected location.
 
-Keybind strings must be parseable by the
+Keybind strings must be parsable by the
 [gtk_accelerator_parse](https://docs.gtk.org/gtk4/func.accelerator_parse.html).
 
 ## Colors
@@ -234,7 +236,7 @@ CSS properties. Note that you can also modify the default font-family.
 | `.world-record`        |
 
 If a split has a `title` key, its UI element receives a class
-name derived from its title. Specifically, the title is lowercased
+name derived from its title. Specifically, the title is lowercase
 and all non-alphanumeric characters are replaced with hyphens, and
 the result is concatenated with `split-title-`. For instance,
 if your split is titled "First split", it can be styled by
@@ -246,7 +248,7 @@ targeting the CSS class `.split-title-first-split`.
 
 - How to resize the window application?
 
-    Edit the `width` and `height` properties in the [split json file](#main-object).
+    Edit the `width` and `height` properties in the [split JSON file](#main-object).
 
 - How to change the default keybinds?
 
@@ -257,7 +259,7 @@ targeting the CSS class `.split-title-first-split`.
 
     Set the `global-hotkeys` property as true. See [Settings and Keybinds](#settings-and-keybinds).
 
-- Can I modify the Urn appareance?
+- Can I modify the Urn appearance?
 
     Yes. You can modify the default CSS theme (`themes/live-split`), download
     [online themes](https://github.com/TheBlackParrot/urn-themes),
@@ -277,6 +279,7 @@ targeting the CSS class `.split-title-first-split`.
 
     Yes, you can contribute by making [pull requests](https://github.com/paoloose/urn/pulls),
     or creating new themes or [reporting issues](https://github.com/paoloose/urn/issues).
+
 ---
 
 ## Uninstall Urn

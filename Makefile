@@ -36,7 +36,7 @@ install:
 	install -Dm644 urn-gtk.gschema.xml $(SCHEMAS_DIR)/urn-gtk.gschema.xml
 	glib-compile-schemas $(SCHEMAS_DIR)
 	mkdir -p $(DATADIR)/urn/themes
-	rsync -a --exclude=".*" themes $(DATADIR)/urn
+	cp -r themes $(DATADIR)/urn
 
 uninstall:
 	rm -f $(BIN_DIR)/$(BIN)
