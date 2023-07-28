@@ -688,7 +688,7 @@ static void open_activated(
             }
         }
     }
-    if (res == GTK_RESPONSE_CANCEL && !win->game) {
+    if ((res == GTK_RESPONSE_CANCEL || res == GTK_RESPONSE_DELETE_EVENT) && !win->game) {
         show_error_message(win, "No JSON file loaded");
     }
     gtk_widget_destroy(dialog);
