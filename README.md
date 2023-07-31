@@ -51,13 +51,13 @@ For NixOS, see the [`urn-timer` package](<https://search.nixos.org/packages?quer
 ### Building
 
 Urn requires `gtk3`, `x11` and `jansson`; installation requires `imagemagick`.
-The default font is `DejaVu`.
+The default font is `DejaVu`. Debian users also need `xxd`.
 
 On Debian-based systems:
 
 ```sh
 sudo apt update
-sudo apt install build-essential libgtk-3-dev libjansson-dev imagemagick fonts-dejavu
+sudo apt install build-essential libgtk-3-dev libjansson-dev imagemagick fonts-dejavu xxd
 ```
 
 Clone the project:
