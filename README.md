@@ -278,6 +278,7 @@ targeting the CSS class `.split-title-first-split`.
 - How to make the keybinds global
 
     Set the `global-hotkeys` property as true. See [Settings and Keybinds](#settings-and-keybinds).
+    For Wayland users, see [#9](https://github.com/paoloose/urn/issues/9).
 
 - Can I modify the Urn appearance?
 
