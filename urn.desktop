@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Urn
-Exec=urn-gtk
+Exec=env GDK_BACKEND=x11 urn-gtk
 Icon=urn
 Type=Application
 Categories=GTK;GNOME;Utility;
