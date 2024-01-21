@@ -245,7 +245,7 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
     ref = json_object_get(json, "width");
     if (ref) {
         if (!json_is_integer(ref)) {
-            error = 1;
+            error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
             strcpy(error_hint, "object.width must be an integer");
             goto game_create_done;
         }
@@ -344,7 +344,7 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
         }
         game->split_titles[i] = strdup(json_string_value(split_ref));
         if (!game->split_titles[i]) {
-            error = 1;
+            error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
             goto game_create_done;
         }
         split_ref = json_object_get(split, "time");
