@@ -6,30 +6,35 @@
   "splits": [
     {
       "title": "Overworld",
+      "icon": "https://i.pinimg.com/originals/60/72/61/60726108c2da773edf6afc9e30bc591f.png",
       "time": "0.000000",
       "best_time": "0.000000",
       "best_segment": "0.000000"
     },
     {
       "title": "Nether",
+      "icon": "https://i.pinimg.com/originals/b9/80/1b/b9801bd6a58f2b41de16677025da5d03.jpg",
       "time": "0.000000",
       "best_time": "0.000000",
       "best_segment": "0.000000"
     },
     {
       "title": "Fortress",
+      "icon": "https://i.pinimg.com/originals/ff/6c/0a/ff6c0a82665e5784c8ddd813f647cd58.jpg",
       "time": "0.000000",
       "best_time": "0.000000",
       "best_segment": "0.000000"
     },
     {
       "title": "End Portal",
+      "icon": "https://static.wikia.nocookie.net/minecraft/images/5/56/End_Portal_Frame.png/revision/latest/scale-to-width/360?cb=20130419031431",
       "time": "0.000000",
       "best_time": "0.000000",
       "best_segment": "0.000000"
     },
     {
       "title": "Credits",
+      "icon": "https://cdn3d.iconscout.com/3d/premium/thumb/trophy-8468550-6713642.png",
       "time": "0.000000",
       "best_time": "0.000000",
       "best_segment": "0.000000"

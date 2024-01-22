@@ -1,9 +1,8 @@
-
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
     <img src="https://raw.githubusercontent.com/paoloose/urn/master/static/urn.png" width=100 height=100/>
 </p>
-<h1 align="center">— Urn split tracker —</h1>
+<h1 align="center">Urn split tracker</h1>
 
 <p align="center">
     <img src="https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white"/>
@@ -199,11 +198,14 @@ Most of the above keys are optional.
 | Key            | Value                  |
 | -------------- | ---------------------- |
 | `title`        | Split title            |
+| `icon`         | Icon file path or url  |
 | `time`         | Split time             |
 | `best_time`    | Your best split time   |
 | `best_segment` | Your best segment time |
 
-Times are strings in `HH:MM:SS.mmmmmm` format.
+Times are strings in `HH:MM:SS.mmmmmm` format. Icons can be either a local
+file path (preferably absolute) or a URL. Note that only GTK-supported
+image formats will work. For example, `.svg` and `.webp` doesn't.
 
 ## Themes
 
@@ -237,6 +239,7 @@ CSS properties. Note that you can also modify the default font-family.
 | `.split`               |
 | `.current-split`       |
 | `.split-title`         |
+| `.split-icon`          |
 | `.split-time`          |
 | `.split-delta`         |
 | `.split-last`          |
@@ -293,8 +296,17 @@ targeting the CSS class `.split-title-first-split`.
 
 - How can I define custom icons for my splits?
 
-    This is currently not possible. See [https://github.com/paoloose/urn/issues/7](https://github.com/paoloose/urn/issues/7)
-    for a workaround (or if you want to help to implement this).
+    Yes! You can use local files or web urls. See the `icon` key in the [split object](#split-object).
+
+    The default icon size is 20x20px, but you can change it like so:
+
+    ```css
+    .split-icon {
+        min-width: 24px;
+        min-height: 24px;
+        background-size: 24px;
+    }
+    ```
 
 - Can I contribute?
 

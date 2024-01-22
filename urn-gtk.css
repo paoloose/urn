@@ -31,6 +31,14 @@
   color: #FFF;
 }
 
+.split-icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 20px;
+  min-height: 20px;
+  background-size: 20px;
+}
+
 .done {
   color: #999;
 }
