@@ -170,6 +170,7 @@ static void splits_show_game(UrnComponent *self_, urn_game *game, urn_timer *tim
             GTK_STYLE_PROVIDER(self->icons_css_provider)
         );
         g_object_unref(self->icons_css_provider);
+        self->icons_css_provider = NULL;
     }
 
     if (icons_css_src->len > 0) {
