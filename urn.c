@@ -499,8 +499,8 @@ int urn_game_save(const urn_game *game) {
     }
     for (i = 0; i < game->split_count; ++i) {
         json_t *split = json_object();
-        json_object_set_new(split, "title",
-                            json_string(game->split_titles[i]));
+        json_object_set_new(split, "title", json_string(game->split_titles[i]));
+        json_object_set_new(split, "icon", json_string(game->split_icon_paths[i]));
         urn_time_string_serialized(str, game->split_times[i]);
         json_object_set_new(split, "time", json_string(str));
         urn_time_string_serialized(str, game->best_splits[i]);
