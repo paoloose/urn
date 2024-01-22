@@ -82,15 +82,13 @@ static void splits_trailer(UrnComponent *self_) {
             gtk_container_add(GTK_CONTAINER(self->split_last), self->split_rows[last]);
             gtk_widget_show(self->split_last);
         }
-    } else {
-        if (curr_scroll + page_size == scroll_max) {
-            // move last split to split box
-            gtk_container_remove(GTK_CONTAINER(self->split_last), self->split_rows[last]);
-            gtk_container_add(GTK_CONTAINER(self->splits), self->split_rows[last]);
-            gtk_adjustment_set_upper(self->split_adjust, scroll_max + height);
-            gtk_adjustment_set_value(self->split_adjust, curr_scroll + split_h);
-            gtk_widget_hide(self->split_last);
-        }
+    } else if (curr_scroll + page_size == scroll_max) {
+        // move last split to split box
+        gtk_container_remove(GTK_CONTAINER(self->split_last), self->split_rows[last]);
+        gtk_container_add(GTK_CONTAINER(self->splits), self->split_rows[last]);
+        gtk_adjustment_set_upper(self->split_adjust, scroll_max + height);
+        gtk_adjustment_set_value(self->split_adjust, curr_scroll + split_h);
+        gtk_widget_hide(self->split_last);
     }
     g_object_unref(self->split_rows[last]);
 }
@@ -113,12 +111,31 @@ static void splits_show_game(UrnComponent *self_, urn_game *game, urn_timer *tim
         gtk_widget_set_hexpand(self->split_rows[i], TRUE);
         gtk_container_add(GTK_CONTAINER(self->splits), self->split_rows[i]);
 
+        self->split_titles[i] = gtk_label_new(game->split_titles[i]);
+        add_class(self->split_titles[i], "split-title");
+        gtk_widget_set_halign(self->split_titles[i], GTK_ALIGN_START);
+        gtk_widget_set_hexpand(self->split_titles[i], TRUE);
+
+        if (game->split_titles[i] && strlen(game->split_titles[i])) {
+            char *c = &str[12];
+            strcpy(str, "split-title-");
+            strcpy(c, game->split_titles[i]);
+            do {
+                *c = !isalnum(*c) ? '-' : tolower(*c);
+            } while (*++c != '\0');
+            add_class(self->split_rows[i], str);
+        }
+
         // null icon path means no icon
         if (game->contains_icons) {
             if (game->split_icon_paths[i]) {
-                g_string_append_printf(icons_css_src, ".split:nth-child(%d) .split-icon { background-image: url('%s'); }", i+1, game->split_icon_paths[i]);
+                // g_string_append_printf(icons_css_src, ".split:nth-child(%d) .split-icon { background-image: url('%s'); }", i+1, game->split_icon_paths[i]);
+                g_string_append_printf(
+                    icons_css_src,
+                    ".%s .split-icon { background-image: url('%s'); }",
+                    str, game->split_icon_paths[i]
+                );
             }
-
             self->split_icons[i] = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
             add_class(self->split_icons[i], "split-icon");
             // set size but allow to dinamically change it from css with min-width and min-height
@@ -126,11 +143,6 @@ static void splits_show_game(UrnComponent *self_, urn_game *game, urn_timer *tim
             gtk_container_add(GTK_CONTAINER(self->split_rows[i]), self->split_icons[i]);
             gtk_widget_show(self->split_icons[i]);
         }
-
-        self->split_titles[i] = gtk_label_new(game->split_titles[i]);
-        add_class(self->split_titles[i], "split-title");
-        gtk_widget_set_halign(self->split_titles[i], GTK_ALIGN_START);
-        gtk_widget_set_hexpand(self->split_titles[i], TRUE);
         gtk_container_add(GTK_CONTAINER(self->split_rows[i]), self->split_titles[i]);
 
         self->split_deltas[i] = gtk_label_new(NULL);
@@ -146,21 +158,6 @@ static void splits_show_game(UrnComponent *self_, urn_game *game, urn_timer *tim
         if (game->split_times[i]) {
             urn_split_string(str, game->split_times[i]);
             gtk_label_set_text(GTK_LABEL(self->split_times[i]), str);
-        }
-
-        if (game->split_titles[i]
-            && strlen(game->split_titles[i])) {
-            char *c = &str[12];
-            strcpy(str, "split-title-");
-            strcpy(c, game->split_titles[i]);
-            do {
-                if (!isalnum(*c)) {
-                    *c = '-';
-                } else {
-                    *c = tolower(*c);
-                }
-            } while (*++c != '\0');
-            add_class(self->split_rows[i], str);
         }
 
         gtk_widget_show_all(self->split_rows[i]);
