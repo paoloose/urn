@@ -207,7 +207,6 @@ static void splits_clear_game(UrnComponent *self_) {
     free(self->split_rows);
     free(self->split_titles);
     free(self->split_icons);
-    free(self->icons_css_provider);
     free(self->split_deltas);
     free(self->split_times);
     self->split_count = 0;
