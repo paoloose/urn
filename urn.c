@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 #include <jansson.h>
 #include "urn.h"
 
@@ -129,6 +130,7 @@ void urn_game_release(urn_game *game) {
         for (int i = 0; i < game->split_count; ++i) {
             if (game->split_titles[i]) {
                 free(game->split_titles[i]);
+                free(game->split_icon_paths[i]);
             }
         }
         free(game->split_titles);
@@ -310,6 +312,11 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
         error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
         goto game_create_done;
     }
+    game->split_icon_paths = calloc(game->split_count, sizeof(char *));
+    if (!game->split_icon_paths) {
+        error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+        goto game_create_done;
+    }
     // allocate splits
     game->split_times = calloc(game->split_count, sizeof(long long));
     if (!game->split_times) {
@@ -331,11 +338,13 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
         error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
         goto game_create_done;
     }
+    game->contains_icons = false;
     // copy splits
     for (i = 0; i < game->split_count; ++i) {
         json_t *split;
         json_t *split_ref;
         split = json_array_get(ref, i);
+
         split_ref = json_object_get(split, "title");
         if (!split_ref || !json_is_string(split_ref)) {
             error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
@@ -347,6 +356,22 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
             error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
             goto game_create_done;
         }
+
+        split_ref = json_object_get(split, "icon");
+        if (split_ref) {
+            if (!json_is_string(split_ref)) {
+                error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
+                sprintf(error_hint, "object.splits[%d].icon must be a string", i);
+                goto game_create_done;
+            }
+            game->split_icon_paths[i] = strdup(json_string_value(split_ref));
+            if (!game->split_icon_paths[i]) {
+                error = URN_GAME_CREATE_ERROR_ALLOC_FAILED;
+                goto game_create_done;
+            }
+            game->contains_icons = true;
+        }
+
         split_ref = json_object_get(split, "time");
         if (!split_ref) {
             game->split_times[i] = 0;
@@ -364,6 +389,7 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
         } else if (!i && game->split_times[0]) {
             game->segment_times[0] = game->split_times[0];
         }
+
         split_ref = json_object_get(split, "best_time");
         if (!json_is_string(split_ref)) {
             error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;
@@ -375,6 +401,7 @@ int urn_game_create(urn_game **game_ptr, const char *path, char **error_msg) {
         } else if (game->split_times[i]) {
             game->best_splits[i] = game->split_times[i];
         }
+
         split_ref = json_object_get(split, "best_segment");
         if (!json_is_string(split_ref)) {
             error = URN_GAME_CREATE_ERROR_TYPE_MISMATCH;

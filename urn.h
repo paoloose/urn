@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #ifndef __urn_h__
 #define __urn_h__
 
@@ -22,6 +24,8 @@ typedef struct urn_game {
     long long world_record;
     long long start_delay;
     char **split_titles;
+    char **split_icon_paths; // null if no icon
+    bool contains_icons;
     int split_count;
     long long *split_times;
     long long *segment_times;

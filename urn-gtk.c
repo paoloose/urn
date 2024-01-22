@@ -207,8 +207,9 @@ static void urn_app_window_show_game(UrnAppWindow *win) {
 
     for (l = win->components; l != NULL; l = l->next) {
         UrnComponent *component = l->data;
-        if (component->ops->show_game)
+        if (component->ops->show_game) {
             component->ops->show_game(component, win->game, win->timer);
+        }
     }
 
     for (GList *l = gtk_container_get_children(GTK_CONTAINER(win->box)); l; l = l->next) {
