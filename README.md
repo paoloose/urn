@@ -22,13 +22,14 @@
 
 ### Features added
 
+- Icons support for splits
+- Feedback error when opening invalid JSON files
 - Now the last split folder is saved ([pull request by @Thue](https://github.com/3snowp7im/urn/pull/49))
 - New default theme (LiveSplit theme)
 - New shortcut to keep window always on top (Ctrl+K)
 - More friendly README.md
 - Nicer time format
 - New Urn icon ✨
-- Feedback error when opening invalid JSON files
 
 ### Bugs fixed
 
@@ -36,7 +37,8 @@
 - User was able to skip the last split
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/paoloose/urn/master/static/screenshot.png" width=320 />
+    <img src="./static/screenshot.png" width=320 />
+    <img src="./static/screenshot2.png" width=320 />
 </p>
 
 ---
