@@ -6,6 +6,8 @@
 #include <jansson.h>
 #include "urn.h"
 
+#define DECIMAL_PRECISION_ON_SCREEN 2
+
 long long urn_time_now(void) {
     struct timespec timespec;
     clock_gettime(CLOCK_MONOTONIC, &timespec);
@@ -67,7 +69,7 @@ static void urn_time_string_format(char *string,
     sprintf(dot_subsecs, ".%06lld", time % 1000000LL);
     if (!serialized) {
         /* Show only a dot and 2 decimal places instead of all 6 */
-        dot_subsecs[3] = '\0';
+        dot_subsecs[DECIMAL_PRECISION_ON_SCREEN + 1] = '\0';
     }
     if (millis) {
         strcpy(millis, &dot_subsecs[1]);
