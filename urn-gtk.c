@@ -501,7 +501,7 @@ static void urn_app_window_init(UrnAppWindow *win) {
         G_CALLBACK(urn_app_window_resize), win
     );
 
-    if (win->global_hotkeys) {
+    if (win->global_hotkeys && getenv("WAYLAND_DISPLAY") == NULL) {
         keybinder_init();
         keybinder_bind(
             g_settings_get_string(settings, "keybind-start-split"),
