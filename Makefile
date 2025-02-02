@@ -29,7 +29,7 @@ install:
 	install -Dm644 $(APP) $(APP_DIR)/$(APP)
 	for size in 16 22 24 32 36 48 64 72 96 128 256 512; do \
 	  mkdir -p $(ICON_DIR)/"$$size"x"$$size"/apps ; \
-	  convert static/$(ICON) -resize "$$size"x"$$size" \
+	  magick static/$(ICON) -resize "$$size"x"$$size" \
 	          $(ICON_DIR)/"$$size"x"$$size"/apps/$(ICON) ; \
 	done
 	gtk-update-icon-cache -f -t $(ICON_DIR)
