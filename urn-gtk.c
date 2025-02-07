@@ -501,7 +501,22 @@ static void urn_app_window_init(UrnAppWindow *win) {
         G_CALLBACK(urn_app_window_resize), win
     );
 
-    if (win->global_hotkeys && getenv("WAYLAND_DISPLAY") == NULL) {
+    bool should_enable_global_hotkeys = false;
+
+    if (win->global_hotkeys) {
+        bool is_wayland = getenv("WAYLAND_DISPLAY") != NULL;
+        bool force_global_hotkeys = getenv("URN_FORCE_GLOBAL_HOTKEYS") == NULL;
+
+        if (is_wayland && !force_global_hotkeys) {
+            g_warning ("Global hotkeys are disabled on Wayland by default. "
+                       "Set the URN_FORCE_GLOBAL_HOTKEYS environment variable "
+                       "to enable them. See https://github.com/paoloose/urn/issues/9 for details.");
+        }
+
+        should_enable_global_hotkeys = !is_wayland || (is_wayland && force_global_hotkeys);
+    }
+
+    if (should_enable_global_hotkeys) {
         keybinder_init();
         keybinder_bind(
             g_settings_get_string(settings, "keybind-start-split"),

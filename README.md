@@ -285,6 +285,17 @@ targeting the CSS class `.split-title-first-split`.
     Set the `global-hotkeys` property as true. See [Settings and Keybinds](#settings-and-keybinds).
     For Wayland users, see [#9](https://github.com/paoloose/urn/issues/9).
 
+    TL;DR: Wayland users reported that enabling `global-hotkeys` causes the application to crash.
+    As a result, this setting is ignored on Wayland by default. You can override this behavior by
+    defining the `URN_FORCE_GLOBAL_HOTKEYS` environment variable:
+
+    ```bash
+    # In urn.desktop
+    URN_FORCE_GLOBAL_HOTKEYS=1 urn-gtk
+    ```
+
+    We are looking for a better approach to get global hotkeys in Wayland. See [#19](https://github.com/paoloose/urn/issues/19).
+
 - Can I modify the Urn appearance?
 
     Yes. You can modify the default CSS theme (`themes/live-split`), download
