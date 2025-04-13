@@ -166,6 +166,7 @@ The color of a time or delta has a special meaning.
 | Dark red    | Behind splits in PB and losing time    |
 | Light red   | Behind splits in PB and gaining time   |
 | Dark green  | Ahead of splits in PB and gaining time |
+| Blue        | Best split time in any run             |
 | Gold        | Best segment time in any run           |
 
 ## Split Files
