@@ -30,7 +30,7 @@ scrollbar*,scrollbar slider,scrollbar{background-color: transparent; border: non
 .header{background-image: linear-gradient(to bottom, @ls_title_bg_c1, @ls_title_bg_c2); min-height: 30px; font-weight: bold; margin-left: -8px; margin-right: -8px;}
 .title{color: @ls_fg; font-size: 10pt;}
 .attempt-count{color: @ls_fg; font-size: 10pt; margin-bottom: 1px; margin-top: 10px; margin-right: 16px;}
-.delta{color: @ahead_fg;}
+.delta{color: @ahead_fg; font-weight: bold;}
 .timer{color: @ahead_fg; font-size: 37pt; font-family: Noto Mono; font-weight: bold; padding-right: 8px;}
 .timer-millis{font-size: 26pt; padding-bottom: 4px;}
 .timer.behind{color: @behind_fg;}
