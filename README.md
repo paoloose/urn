@@ -25,7 +25,7 @@
 - Icons support for splits
 - Feedback error when opening invalid JSON files
 - Now the last split folder is saved ([pull request by @Thue](https://github.com/3snowp7im/urn/pull/49))
-- New default theme (LiveSplit theme)
+- New default theme (LiveSplit theme) thanks to [@mellowawa](https://github.com/mellowawa)
 - New shortcut to keep window always on top (Ctrl+K)
 - More friendly README.md
 - Nicer time format
@@ -157,6 +157,8 @@ Keybind strings must be parsable by the
 [gtk_accelerator_parse](https://docs.gtk.org/gtk4/func.accelerator_parse.html).
 See the [complete list of keynames](https://github.com/GNOME/gtk/blob/main/gdk/keynames.txt) for `gdk`. Modifiers are enclosed in angular brackets <>: `<Shift>`, `<Ctrl>`, `<Alt>`, `<Meta>`, `<Super>`, `<Hyper>`. Note that you should use `<Alt>a` instead of `<Alt>-a` or similar.
 
+For a settings GUI for urn check out the [`urn-settings`](https://github.com/mellowawa/urn-settings) project by [@mellowawa](https://github.com/mellowawa)
+
 ## Colors
 
 The color of a time or delta has a special meaning.
@@ -219,9 +221,6 @@ You can set the global theme by changing the `theme` value in gsettings.
 Theme variants should follow the pattern `<name>-<variant>.css`.
 Each split file can apply their own themes by specifying a `theme` key in the main object.
 
-See [this repo](https://github.com/TheBlackParrot/urn-themes) for a list of
-ready-to-use themes.
-
 See [this](https://docs.gtk.org/gtk3/css-properties.html) for a list of supported
 CSS properties. Note that you can also modify the default font-family.
 
@@ -267,6 +266,51 @@ and all non-alphanumeric characters are replaced with hyphens, and
 the result is concatenated with `split-title-`. For instance,
 if your split is titled "First split", it can be styled by
 targeting the CSS class `.split-title-first-split`.
+
+## Themes gallery
+
+Urn users are contributing with awesome themes that you can use!
+
+Feel free to create a PR adding your themes to the list.
+
+- Kawaii Urn theme by [@mellowawa](https://github.com/mellowawa)
+
+    <p>
+    <img src="https://raw.githubusercontent.com/mellowawa/kawaii-urn-theme/refs/heads/main/assets/ex-cs.png">
+    <img src="https://raw.githubusercontent.com/mellowawa/kawaii-urn-theme/refs/heads/main/assets/ex-cs-even.png">
+    </p>
+
+    <https://github.com/mellowawa/kawaii-urn-theme>
+
+- Catppuccin Urn theme by [@mellowawa](https://github.com/mellowawa)
+
+    [Catppuccin](https://github.com/catppuccin) Line of themes for [Urn.](https://github.com/paoloose/urn)
+    | Mocha | Macchiato | Frappé | Latte |
+    |---------|---------|---------|---------|
+    | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/mocha.png) | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/macchiato.png) | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/frappe.png) | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/latte.png) |
+
+
+    <https://github.com/mellowawa/Catppuccin-Urn>
+
+- Breeze Ann theme by [@mellowawa](https://github.com/mellowawa)
+
+    <p>
+    <img src="https://raw.githubusercontent.com/mellowawa/breeze-ann_urn-theme/main/assets/urn.png" />
+    </p>
+
+    <https://github.com/mellowawa/breeze-ann_urn-theme>
+
+- Real Ann by [@mellowawa](https://github.com/mellowawa)
+
+    <p>
+    <img src="https://raw.githubusercontent.com/mellowawa/Real-Ann/main/assets/example.png" />
+    </p>
+
+    <https://github.com/mellowawa/Real-Ann>
+
+- The original repository of urn themes by [@TheBlackParrot](https://github.com/TheBlackParrot) and [@3snowp7im](https://github.com/3snowp7im)
+
+    <https://github.com/TheBlackParrot/urn-themes>
 
 ---
 
