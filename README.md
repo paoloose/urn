@@ -225,40 +225,41 @@ ready-to-use themes.
 See [this](https://docs.gtk.org/gtk3/css-properties.html) for a list of supported
 CSS properties. Note that you can also modify the default font-family.
 
-| Urn CSS classes        |
-| ---------------------- |
-| `.window`              |
-| `.header`              |
-| `.title`               |
-| `.attempt-count`       |
-| `.time`                |
-| `.delta`               |
-| `.timer`               |
-| `.timer-seconds`       |
-| `.timer-millis`        |
-| `.delay`               |
-| `.splits`              |
-| `.split`               |
-| `.current-split`       |
-| `.split-title`         |
-| `.split-icon`          |
-| `.split-time`          |
-| `.split-delta`         |
-| `.split-last`          |
-| `.done`                |
-| `.behind`              |
-| `.losing`              |
-| `.best-segment`        |
-| `.best-split`          |
-| `.footer`              |
-| `.prev-segment-label`  |
-| `.prev-segment`        |
-| `.sum-of-bests-label`  |
-| `.sum-of-bests`        |
-| `.personal-best-label` |
-| `.personal-best`       |
-| `.world-record-label`  |
-| `.world-record`        |
+| Urn CSS classes        | Explenation Where needed |
+| ---------------------- |--------------------------|
+| `.window`              ||
+| `.header`              ||
+| `.title`               ||
+| `.attempt-count`       ||
+| `.time`                ||
+| `.delta`               | [Dark green](#colors) |
+| `.timer`               ||
+| `.timer-seconds`       ||
+| `.timer-millis`        ||
+| `.delay`               | Timer not running/in negative time |
+| `.splits`              | Container of the splits |
+| `.split`               | Splits themselves |
+| `.current-split`       ||
+| `.split-title`         ||
+| `.split-icon`          ||
+| `.split-time`          ||
+| `.split-delta`         | Comparison time in the split ([Dark green](#colors)) |
+| `.split-last`          | The last split if its not yet scrolled down to |
+| `.done`                ||
+| `.behind`              | Behind the PB but gaining time ([Light red](#colors)) |
+| `.losing`              | Ahead of PB but losing time ([Light green](#colors)) |
+| `.behind.losing`       | (class combination) Behind PB and losing time ([Dark red](#colors)) |
+| `.best-segment`        ||
+| `.best-split`          ||
+| `.footer`              ||
+| `.prev-segment-label`  ||
+| `.prev-segment`        ||
+| `.sum-of-bests-label`  ||
+| `.sum-of-bests`        ||
+| `.personal-best-label` ||
+| `.personal-best`       ||
+| `.world-record-label`  ||
+| `.world-record`        ||
 
 If a split has a `title` key, its UI element receives a class
 name derived from its title. Specifically, the title is lowercase
