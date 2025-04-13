@@ -19,11 +19,6 @@ SCHEMAS_DIR = $(DATADIR)/glib-2.0/schemas
 
 $(BIN): $(OBJS)
 
-$(OBJS): urn-gtk.h
-
-urn-gtk.h: urn-gtk.css
-	xxd --include urn-gtk.css > urn-gtk.h || (rm urn-gtk.h; false)
-
 install:
 	install -Dm755 $(BIN) $(BIN_DIR)/$(BIN)
 	install -Dm644 $(APP) $(APP_DIR)/$(APP)
@@ -53,4 +48,4 @@ remove-schema:
 	glib-compile-schemas $(SCHEMAS_DIR)
 
 clean:
-	rm -f $(OBJS) $(BIN) urn-gtk.h
+	rm -f $(OBJS) $(BIN)
