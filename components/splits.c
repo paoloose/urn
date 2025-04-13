@@ -103,7 +103,7 @@ static void splits_show_game(UrnComponent *self_, urn_game *game, urn_timer *tim
     self->split_deltas = calloc(self->split_count, sizeof(GtkWidget *));
     self->split_times = calloc(self->split_count, sizeof(GtkWidget *));
 
-    GString* icons_css_src = g_string_new("");
+    GString* icons_css_src = g_string_new(".split-icon { background-repeat: no-repeat; background-position: center; min-width: 20px; min-height: 20px; background-size: 20px; margin-right: 4px; }");
 
     for (int i = 0; i < self->split_count; ++i) {
         self->split_rows[i] = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
