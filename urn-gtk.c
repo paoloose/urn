@@ -7,7 +7,6 @@
 #include <pwd.h>
 #include <gtk/gtk.h>
 #include "urn.h"
-#include "urn-gtk.h"
 #include "keybinder.h"
 #include "components/urn-component.h"
 
@@ -463,9 +462,16 @@ static void urn_app_window_init(UrnAppWindow *win) {
         GTK_STYLE_PROVIDER(provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
     );
+
+    // There used to be a urn-gtk.css file that contained the default CSS styles.
+    // This proved to be problematic because the styles where embedded at compile time
+    // and impossible to change, making it hard for new themes to be created.
+    // The file was removed and the default styles are empty to the choice of the user.
+    char* default_styles = "";
+
     gtk_css_provider_load_from_data(
         GTK_CSS_PROVIDER(provider),
-        (char *)urn_gtk_css, urn_gtk_css_len, NULL
+        default_styles, strlen(default_styles), NULL
     );
     g_object_unref(provider);
 
