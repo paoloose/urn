@@ -19,19 +19,19 @@
 @define-color ahead_fg #00CC36;
 @define-color sob_fg #D8AF1F;
 
-*{outline-color: transparent; outline: none;}
+*{outline-color: transparent; outline: none; transition: none; border-radius: 0; background: none; box-shadow: none;}
 
 scrollbar*,scrollbar slider,scrollbar{background-color: transparent; border: none; color: transparent;}
 
-.window,.attempt-count,.time,.delta,.timer,.timer-seconds,.timer-millis,.delay,.splits,.split,.current-split,.split-title,.split-icon,.split-time,.split-delta,.split-last,.done,.behind,.losing,.best-segment,.best-split,.footer,.prev-segment-label,.prev-segment,.sum-of-bests-label,.sum-of-bests,.personal-best-label,.personal-best,.world-record-label,.world-record{font-family: Noto Sans; text-shadow: 2px 2px 0px @ls_fg_shadow;  padding: 0; margin: 0;}
+.window,.attempt-count,.time,.delta,.timer,.timer-seconds,.timer-millis,.delay,.splits,.split,.current-split,.split-title,.split-icon,.split-time,.split-delta,.split-last,.done,.behind,.losing,.best-segment,.best-split,.footer,.prev-segment-label,.prev-segment,.sum-of-bests-label,.sum-of-bests,.personal-best-label,.personal-best,.world-record-label,.world-record{font-family: Noto Sans; text-shadow: 2px 2px 0px @ls_fg_shadow; padding: 0; margin: 0;}
 .header,.title {font-family: Noto Sans; text-shadow: 4px 2px 0px @ls_fg_shadow; padding: 0; margin: 0;}
 
-.window{background-color: @ls_bg; color: @ls_fg; margin: -8;}
+.window{background-color: @ls_bg; color: @ls_fg; margin: -8px;}
 .header{background-image: linear-gradient(to bottom, @ls_title_bg_c1, @ls_title_bg_c2); min-height: 30px; font-weight: bold; margin-left: -8px; margin-right: -8px;}
 .title{color: @ls_fg; font-size: 10pt;}
 .attempt-count{color: @ls_fg; font-size: 10pt; margin-bottom: 1px; margin-top: 10px; margin-right: 16px;}
 .delta{color: @ahead_fg; font-weight: bold;}
-.timer{color: @ahead_fg; font-size: 37pt; font-family: Noto Mono; font-weight: bold; padding-right: 8px;}
+.timer{color: @ahead_fg; font-size: 37pt; font-family: Noto Mono; font-weight: bold; padding-right: 8px; font-weight: bold;}
 .timer-millis{font-size: 26pt; padding-bottom: 4px;}
 .timer.behind{color: @behind_fg;}
 .timer.losing{color: @losing_fg;}
@@ -53,3 +53,38 @@ scrollbar*,scrollbar slider,scrollbar{background-color: transparent; border: non
 .best-split{color: @pb_fg;}
 .footer{padding-right: 17px; padding-left: 15px; background: linear-gradient(to bottom, @ls_footer_bg_c1, @ls_footer_bg_c2); margin: 0 -8px;}
 .prev-segment-label,.prev-segment,.sum-of-bests-label,.sum-of-bests,.personal-best-label,.personal-best,.world-record-label,.world-record{ padding-bottom: 4px; padding-top: 3px;}
+
+/* WIDGETS */
+/* Gtk file dialog */
+*:disabled{color: alpha(@ls_fg,0.5)}
+separator{background-color: @ls_title_bg_c1;}
+headerbar{background-image: linear-gradient(to bottom, @ls_title_bg_c1, @ls_title_bg_c2); border-radius: 0; border: none; color: @ls_fg}
+headerbar button,button{background-color: transparent; border: none; min-height: 25px; color: @ls_fg; font-weight: 400; border-color: @ls_bg;}
+headerbar button:hover,button:hover{background-image: linear-gradient(to bottom, alpha(currentcolor,0.15), alpha(currentcolor,0.05));}
+headerbar button:nth-child(2){background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
+headerbar button:nth-child(2):active:hover{background-image: linear-gradient(to bottom, mix(currentcolor, @ls_split_bg_current_c1, 0.9), mix(currentcolor, @ls_split_bg_current_c2, 0.9));}
+button:active:hover,headerbar button:active:hover{background-image: linear-gradient(to bottom, alpha(mix(@ls_split_bg_current_c1, currentcolor, 0.3),0.2), alpha(mix(@ls_split_bg_current_c2, currentcolor, 0.3),0.2));}
+button:checked{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
+.sidebar.frame *{background-color: @ls_bg; color: @ls_fg; border: none;}
+.sidebar.frame * .sidebar-row *{background-color: transparent;}
+.sidebar-row:hover{color: @ls_fg; background-image: linear-gradient(to bottom, alpha(currentcolor,0.15), alpha(currentcolor,0.05));}
+.sidebar-row:active:hover{background-image: linear-gradient(to bottom, alpha(mix(@ls_split_bg_current_c1, currentcolor, 0.3),0.2), alpha(mix(@ls_split_bg_current_c2, currentcolor, 0.3),0.2));}
+.sidebar-row:selected,.view:selected,selection{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
+.view{background-color: @ls_bg; color: @ls_fg;}
+tooltip{color: @ls_fg; border: 1px solid @ls_title_bg_c1;}
+tooltip.background{background-color: @ls_bg; color: @ls_fg;}
+tooltip *{color: @ls_fg;}
+entry{background-color: @ls_split_bg_alt; border: 1px solid @ls_sep_c;}
+entry:focus{border-color: mix(@ls_split_bg_current_c1, @ls_split_bg_current_c2,0.5);}
+popover{background-color: @ls_bg; padding: 0; border: 1px solid @ls_sep_c;}
+modelbutton{margin-left: -10px; margin-right: -10px; color: @ls_fg;}
+modelbutton:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
+check{background-image: linear-gradient(@ls_title_bg_c1, @ls_title_bg_c2); color: transparent; border: none;}
+check:checked{background-image: linear-gradient(@ls_split_bg_current_c1, @ls_split_bg_current_c2); color: @ls_fg;}
+
+/* menubar & menuitem */
+menubar,.menubar{color: @ls_fg; background-color: @ls_split_bg_alt; padding: 2px;}
+menu,.menu{background-color: @ls_bg; border: 1px solid @ls_sep_c; padding: 0;}
+menuitem{color: @ls_fg;}
+menuitem:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
+
