@@ -19,9 +19,9 @@
 @define-color ahead_fg #00CC36;
 @define-color sob_fg #D8AF1F;
 
-*{outline-color: transparent; outline: none; transition: none; border-radius: 0; background: none; box-shadow: none;}
+*{outline-color: transparent; outline: none; transition: none; box-shadow: none;}
 
-scrollbar*,scrollbar slider,scrollbar{background-color: transparent; border: none; color: transparent;}
+scrollbar*,scrollbar slider,scrollbar{background: none; border: none; color: transparent;}
 
 .window,.attempt-count,.time,.delta,.timer,.timer-seconds,.timer-millis,.delay,.splits,.split,.current-split,.split-title,.split-icon,.split-time,.split-delta,.split-last,.done,.behind,.losing,.best-segment,.best-split,.footer,.prev-segment-label,.prev-segment,.sum-of-bests-label,.sum-of-bests,.personal-best-label,.personal-best,.world-record-label,.world-record{font-family: Noto Sans; text-shadow: 2px 2px 0px @ls_fg_shadow; padding: 0; margin: 0;}
 .header,.title {font-family: Noto Sans; text-shadow: 4px 2px 0px @ls_fg_shadow; padding: 0; margin: 0;}
@@ -56,6 +56,7 @@ scrollbar*,scrollbar slider,scrollbar{background-color: transparent; border: non
 
 /* WIDGETS */
 /* Gtk file dialog */
+/***************
 *:disabled{color: alpha(@ls_fg,0.5)}
 separator{background-color: @ls_title_bg_c1;}
 headerbar{background-image: linear-gradient(to bottom, @ls_title_bg_c1, @ls_title_bg_c2); border-radius: 0; border: none; color: @ls_fg}
@@ -81,10 +82,11 @@ modelbutton{margin-left: -10px; margin-right: -10px; color: @ls_fg;}
 modelbutton:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
 check{background-image: linear-gradient(@ls_title_bg_c1, @ls_title_bg_c2); color: transparent; border: none;}
 check:checked{background-image: linear-gradient(@ls_split_bg_current_c1, @ls_split_bg_current_c2); color: @ls_fg;}
+***************/
 
 /* menubar & menuitem */
-menubar,.menubar{color: @ls_fg; background-color: @ls_split_bg_alt; padding: 2px;}
-menu,.menu{background-color: @ls_bg; border: 1px solid @ls_sep_c; padding: 0;}
-menuitem{color: @ls_fg;}
-menuitem:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
+menubar,.menubar{color: @ls_fg; background-color: @ls_split_bg_alt; padding: 2px; border-radius: 0;}
+menu,.menu{background-color: @ls_bg; border: 1px solid @ls_sep_c; padding: 0; border-radius: 0;}
+menuitem{color: @ls_fg; border: none; border-radius: 0;}
+menuitem:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2); border: none; border-radius: 0;}
 
