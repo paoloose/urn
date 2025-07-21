@@ -25,7 +25,7 @@
 - Icons support for splits
 - Feedback error when opening invalid JSON files
 - Now the last split folder is saved ([pull request by @Thue](https://github.com/3snowp7im/urn/pull/49))
-- New default theme (LiveSplit theme) thanks to [@mellowawa](https://github.com/mellowawa)
+- New default theme (LiveSplit theme) thanks to [@nukusaba](https://github.com/nukusaba)
 - New shortcut to keep window always on top (Ctrl+K)
 - More friendly README.md
 - Nicer time format
@@ -157,7 +157,9 @@ Keybind strings must be parsable by the
 [gtk_accelerator_parse](https://docs.gtk.org/gtk4/func.accelerator_parse.html).
 See the [complete list of keynames](https://github.com/GNOME/gtk/blob/main/gdk/keynames.txt) for `gdk`. Modifiers are enclosed in angular brackets <>: `<Shift>`, `<Ctrl>`, `<Alt>`, `<Meta>`, `<Super>`, `<Hyper>`. Note that you should use `<Alt>a` instead of `<Alt>-a` or similar.
 
-For a settings GUI for urn check out the [`urn-settings`](https://github.com/mellowawa/urn-settings) project by [@mellowawa](https://github.com/mellowawa)
+For a settings GUI for urn check out the [`urn-settings`](https://github.com/nukusaba/urn-settings) project by [@nukusaba](https://github.com/nukusaba) (This project is discontinuned)
+
+For a simple settings CLI for urn check out [`urn-cli`](https://github.com/nukusaba/urn-cli) by [@nukusaba](https://github.com/nukusaba) (This project is in active development)
 
 ## Colors
 
@@ -273,40 +275,32 @@ Urn users are contributing with awesome themes that you can use!
 
 Feel free to create a PR adding your themes to the list.
 
-- Kawaii Urn theme by [@mellowawa](https://github.com/mellowawa)
+- Kawaii Urn theme by [@nukusaba](https://github.com/nukusaba)
 
     <p>
-    <img src="https://raw.githubusercontent.com/mellowawa/kawaii-urn-theme/refs/heads/main/assets/ex-cs.png">
-    <img src="https://raw.githubusercontent.com/mellowawa/kawaii-urn-theme/refs/heads/main/assets/ex-cs-even.png">
+    <img src="https://raw.githubusercontent.com/nukusaba/kawaii-urn-theme/refs/heads/main/assets/ex-cs.png">
+    <img src="https://raw.githubusercontent.com/nukusaba/kawaii-urn-theme/refs/heads/main/assets/ex-cs-even.png">
     </p>
 
-    <https://github.com/mellowawa/kawaii-urn-theme>
+    <https://github.com/nukusaba/kawaii-urn-theme>
 
-- Catppuccin Urn theme by [@mellowawa](https://github.com/mellowawa)
+- Catppuccin Urn theme by [@nukusaba](https://github.com/nukusaba)
 
     [Catppuccin](https://github.com/catppuccin) Line of themes for [Urn.](https://github.com/paoloose/urn)
     | Mocha | Macchiato | Frappé | Latte |
     |---------|---------|---------|---------|
-    | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/mocha.png) | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/macchiato.png) | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/frappe.png) | ![](https://raw.githubusercontent.com/mellowawa/Catppuccin-Urn/main/assets/latte.png) |
+    | ![](https://raw.githubusercontent.com/nukusaba/Catppuccin-Urn/main/assets/mocha.png) | ![](https://raw.githubusercontent.com/nukusaba/Catppuccin-Urn/main/assets/macchiato.png) | ![](https://raw.githubusercontent.com/nukusaba/Catppuccin-Urn/main/assets/frappe.png) | ![](https://raw.githubusercontent.com/nukusaba/Catppuccin-Urn/main/assets/latte.png) |
 
 
     <https://github.com/mellowawa/Catppuccin-Urn>
 
-- Breeze Ann theme by [@mellowawa](https://github.com/mellowawa)
+- Real Ann by [@nukusaba](https://github.com/nukusaba)
 
     <p>
-    <img src="https://raw.githubusercontent.com/mellowawa/breeze-ann_urn-theme/main/assets/urn.png" />
+    <img src="https://raw.githubusercontent.com/nukusaba/Real-Ann/main/assets/example.png" />
     </p>
 
-    <https://github.com/mellowawa/breeze-ann_urn-theme>
-
-- Real Ann by [@mellowawa](https://github.com/mellowawa)
-
-    <p>
-    <img src="https://raw.githubusercontent.com/mellowawa/Real-Ann/main/assets/example.png" />
-    </p>
-
-    <https://github.com/mellowawa/Real-Ann>
+    <https://github.com/nukusaba/Real-Ann>
 
 - The original repository of urn themes by [@TheBlackParrot](https://github.com/TheBlackParrot) and [@3snowp7im](https://github.com/3snowp7im)
 
