@@ -1,92 +1,229 @@
-@define-color ls_bg #0F0F0F;
-@define-color ls_fg #ffffff;
-@define-color ls_title_bg_c1 #2A2A2A;
-@define-color ls_title_bg_c2 #131313;
-@define-color ls_split_bg_alt rgba(255,255,255,0.0039);
-@define-color ls_split_bg_current_c1 #3373F4;
-@define-color ls_split_bg_current_c2 #153574;
-@define-color ls_footer_bg_c1 #1C1C1C;
-@define-color ls_footer_bg_c2 #0D0D0D;
-@define-color ls_thin_sep_c rgba(255,255,255,0.01176);
-@define-color ls_sep_c rgba(255,255,255,0.1412);
-@define-color ls_fg_shadow rgba(0,0,0,0.7);
-@define-color timer_paused_fg #7A7A7A;
-@define-color timer_off_fg #ACACAC;
-@define-color pb_fg #16A6FF;
-@define-color losing_fg #CC1200;
-@define-color behind_fg #CC5C52;
-@define-color ahead_losing_fg #70CC89;
-@define-color ahead_fg #00CC36;
-@define-color sob_fg #D8AF1F;
+/*
+ *
+ * SOURCE: https://github.com/nukusaba/urn-livesplit
+ *
+*/
+* {
+  outline-color: transparent;
+  outline: none;
+  transition: none;
+  box-shadow: none;
+}
 
-*{outline-color: transparent; outline: none; transition: none; box-shadow: none;}
+scrollbar*, scrollbar slider, scrollbar {
+  background: none;
+  border: none;
+  color: transparent;
+}
 
-scrollbar*,scrollbar slider,scrollbar{background: none; border: none; color: transparent;}
+.window,
+.attempt-count,
+.time, .delta,
+.timer,
+.timer-seconds,
+.timer-millis,
+.delay,
+.splits,
+.split,
+.current-split,
+.split-title,
+.split-icon,
+.split-time,
+.split-delta,
+.split-last,
+.done,
+.behind,
+.losing,
+.best-segment,
+.best-split,
+.footer,
+.prev-segment-label,
+.prev-segment,
+.sum-of-bests-label,
+.sum-of-bests,
+.personal-best-label,
+.personal-best,
+.world-record-label,
+.world-record {
+  font-family: Noto Sans;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  padding: 0;
+  margin: 0;
+}
 
-.window,.attempt-count,.time,.delta,.timer,.timer-seconds,.timer-millis,.delay,.splits,.split,.current-split,.split-title,.split-icon,.split-time,.split-delta,.split-last,.done,.behind,.losing,.best-segment,.best-split,.footer,.prev-segment-label,.prev-segment,.sum-of-bests-label,.sum-of-bests,.personal-best-label,.personal-best,.world-record-label,.world-record{font-family: Noto Sans; text-shadow: 2px 2px 0px @ls_fg_shadow; padding: 0; margin: 0;}
-.header,.title {font-family: Noto Sans; text-shadow: 4px 2px 0px @ls_fg_shadow; padding: 0; margin: 0;}
+.header, .title {
+  font-family: Noto Sans;
+  text-shadow: 4px 2px 0px rgba(0, 0, 0, 0.7);
+  padding: 0;
+  margin: 0;
+}
 
-.window{background-color: @ls_bg; color: @ls_fg; margin: -8px;}
-.header{background-image: linear-gradient(to bottom, @ls_title_bg_c1, @ls_title_bg_c2); min-height: 30px; font-weight: bold; margin-left: -8px; margin-right: -8px;}
-.title{color: @ls_fg; font-size: 10pt;}
-.attempt-count{color: @ls_fg; font-size: 10pt; margin-bottom: 1px; margin-top: 10px; margin-right: 16px;}
-.delta{color: @ahead_fg; font-weight: bold;}
-.timer{color: @ahead_fg; font-size: 37pt; font-family: Noto Mono; font-weight: bold; padding-right: 8px; font-weight: bold;}
-.timer-millis{font-size: 26pt; padding-bottom: 4px;}
-.timer.behind{color: @behind_fg;}
-.timer.losing{color: @losing_fg;}
-.timer.delay{color: @timer_off_fg;}
+.window {
+  background-color: #0F0F0F;
+  color: #ffffff;
+  margin: -8px;
+}
 
-/* .splits box, required targeting like this to ensure there is no margin on the splits */
-.window box:nth-child(2):not(.split){background-color: @ls_bg;margin-right: -8px; margin-left: -8px;}
+.header {
+  background-image: linear-gradient(to bottom, #2A2A2A, #131313);
+  min-height: 30px;
+  font-weight: bold;
+  margin-left: -8px;
+  margin-right: -8px;
+}
 
-.split{color: @ls_fg; background-color: @ls_bg; min-height: 24px; padding-left: 15px; padding-right: 17px;}
-.time,.split-time{font-weight: bold;}
-.split:nth-child(even){color: @ls_fg; background-color: @ls_split_bg_alt; border-top: 1px solid @ls_thin_sep_c; border-bottom: 1px solid @ls_thin_sep_c;}
-.split.current-split{color: @ls_fg; background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
-.split-icon{min-height: 24px; min-width: 24px; padding: 0; margin: 0;}
-.split-last{border-top: 2px solid @ls_sep_c; background-color: @ls_split_bg_alt; padding-right: 8px; padding-left: 8px;}
-.losing{color: @ahead_losing_fg;}
-.behind{color: @behind_fg;}
-.behind.losing{color: @losing_fg;}
-.best-segment{color: @sob_fg;}
-.best-split{color: @pb_fg;}
-.footer{padding-right: 17px; padding-left: 15px; background: linear-gradient(to bottom, @ls_footer_bg_c1, @ls_footer_bg_c2); margin: 0 -8px;}
-.prev-segment-label,.prev-segment,.sum-of-bests-label,.sum-of-bests,.personal-best-label,.personal-best,.world-record-label,.world-record{ padding-bottom: 4px; padding-top: 3px;}
+.title {
+  color: #ffffff;
+  font-size: 10pt;
+}
 
-/* WIDGETS */
-/* Gtk file dialog */
-/***************
-*:disabled{color: alpha(@ls_fg,0.5)}
-separator{background-color: @ls_title_bg_c1;}
-headerbar{background-image: linear-gradient(to bottom, @ls_title_bg_c1, @ls_title_bg_c2); border-radius: 0; border: none; color: @ls_fg}
-headerbar button,button{background-color: transparent; border: none; min-height: 25px; color: @ls_fg; font-weight: 400; border-color: @ls_bg;}
-headerbar button:hover,button:hover{background-image: linear-gradient(to bottom, alpha(currentcolor,0.15), alpha(currentcolor,0.05));}
-headerbar button:nth-child(2){background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
-headerbar button:nth-child(2):active:hover{background-image: linear-gradient(to bottom, mix(currentcolor, @ls_split_bg_current_c1, 0.9), mix(currentcolor, @ls_split_bg_current_c2, 0.9));}
-button:active:hover,headerbar button:active:hover{background-image: linear-gradient(to bottom, alpha(mix(@ls_split_bg_current_c1, currentcolor, 0.3),0.2), alpha(mix(@ls_split_bg_current_c2, currentcolor, 0.3),0.2));}
-button:checked{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
-.sidebar.frame *{background-color: @ls_bg; color: @ls_fg; border: none;}
-.sidebar.frame * .sidebar-row *{background-color: transparent;}
-.sidebar-row:hover{color: @ls_fg; background-image: linear-gradient(to bottom, alpha(currentcolor,0.15), alpha(currentcolor,0.05));}
-.sidebar-row:active:hover{background-image: linear-gradient(to bottom, alpha(mix(@ls_split_bg_current_c1, currentcolor, 0.3),0.2), alpha(mix(@ls_split_bg_current_c2, currentcolor, 0.3),0.2));}
-.sidebar-row:selected,.view:selected,selection{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
-.view{background-color: @ls_bg; color: @ls_fg;}
-tooltip{color: @ls_fg; border: 1px solid @ls_title_bg_c1;}
-tooltip.background{background-color: @ls_bg; color: @ls_fg;}
-tooltip *{color: @ls_fg;}
-entry{background-color: @ls_split_bg_alt; border: 1px solid @ls_sep_c;}
-entry:focus{border-color: mix(@ls_split_bg_current_c1, @ls_split_bg_current_c2,0.5);}
-popover{background-color: @ls_bg; padding: 0; border: 1px solid @ls_sep_c;}
-modelbutton{margin-left: -10px; margin-right: -10px; color: @ls_fg;}
-modelbutton:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2);}
-check{background-image: linear-gradient(@ls_title_bg_c1, @ls_title_bg_c2); color: transparent; border: none;}
-check:checked{background-image: linear-gradient(@ls_split_bg_current_c1, @ls_split_bg_current_c2); color: @ls_fg;}
-***************/
+.attempt-count {
+  color: #ffffff;
+  font-size: 10pt;
+  margin-bottom: 1px;
+  margin-top: 10px;
+  margin-right: 16px;
+}
 
-/* menubar & menuitem */
-menubar,.menubar{color: @ls_fg; background-color: @ls_split_bg_alt; padding: 2px; border-radius: 0;}
-menu,.menu{background-color: @ls_bg; border: 1px solid @ls_sep_c; padding: 0; border-radius: 0;}
-menuitem{color: @ls_fg; border: none; border-radius: 0;}
-menuitem:hover{background-image: linear-gradient(to bottom, @ls_split_bg_current_c1, @ls_split_bg_current_c2); border: none; border-radius: 0;}
+.footer {
+  padding-right: 17px;
+  padding-left: 15px;
+  background: linear-gradient(to bottom, #1C1C1C, #0D0D0D);
+  margin: 0 -8px;
+}
 
+.prev-segment-label,
+.prev-segment,
+.sum-of-bests-label,
+.sum-of-bests,
+.personal-best-label,
+.personal-best,
+.world-record-label,
+.world-record {
+  padding-bottom: 4px;
+  padding-top: 3px;
+}
+
+.window box:nth-child(2):not(.split) {
+  background-color: #0F0F0F;
+  margin-right: -8px;
+  margin-left: -8px;
+}
+
+.split {
+  color: #ffffff;
+  background-color: #0F0F0F;
+  min-height: 24px;
+  padding-left: 15px;
+  padding-right: 17px;
+}
+.split:nth-child(even) {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.0039);
+  border-top: 1px solid rgba(255, 255, 255, 0.01176);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.01176);
+}
+.split.split.current-split {
+  color: #ffffff;
+  background-image: linear-gradient(to bottom, #3373F4, #153574);
+}
+
+.split-icon {
+  min-height: 24px;
+  min-width: 24px;
+  padding: 0;
+  margin: 0;
+}
+
+.split-last {
+  border-top: 2px solid rgba(255, 255, 255, 0.1412);
+  background-color: rgba(255, 255, 255, 0.0039);
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.time,
+.split-time {
+  font-weight: bold;
+}
+
+.timer {
+  color: #00CC36;
+  font-size: 37pt;
+  font-family: Noto Mono;
+  font-weight: bold;
+  padding-right: 8px;
+  font-weight: bold;
+}
+
+.timer-millis {
+  font-size: 26pt;
+  padding-bottom: 4px;
+}
+
+.timer.behind {
+  color: #CC5C52;
+}
+
+.timer.losing {
+  color: #CC1200;
+}
+
+.timer.delay {
+  color: #ACACAC;
+}
+
+.delta {
+  color: #00CC36;
+  font-weight: bold;
+}
+
+.losing {
+  color: #70CC89;
+}
+
+.behind {
+  color: #CC5C52;
+}
+
+.behind.losing {
+  color: #CC1200;
+}
+
+.best-segment {
+  color: #D8AF1F;
+}
+
+.best-split {
+  color: #16A6FF;
+}
+
+menubar,
+.menubar {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.0039);
+  padding: 2px;
+  border-radius: 0;
+}
+
+menu,
+.menu {
+  background-color: #0F0F0F;
+  border: 1px solid rgba(255, 255, 255, 0.1412);
+  padding: 0;
+  border-radius: 0;
+}
+
+menuitem {
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+}
+
+menuitem:hover {
+  background-image: linear-gradient(to bottom, #3373F4, #153574);
+  border: none;
+  border-radius: 0;
+}
+
+/*# sourceMappingURL=live-split.css.map */
