@@ -11,6 +11,14 @@
     <img src="https://img.shields.io/github/license/paoloose/Urn?label=license&style=for-the-badge&logo=GNU&logoColor=white&labelColor=black&color=b85353"/>
 </p>
 
+> [!IMPORTANT]
+>
+> ⚠️ You are strongly advised to use and contribute to [Libresplit](https://github.com/LibreSplit/LibreSplit) instead.
+>
+> [Libresplit](https://github.com/LibreSplit/LibreSplit) has pretty much covered all the bugs and features this fork intended to address, and it is actively maintained, so go check it out.
+>
+> This fork will remain opened to the public for posterity :)
+
 ## About
 
 > This simple split tracker was hacked together by [3snow p7im](https://github.com/3snowp7im).
